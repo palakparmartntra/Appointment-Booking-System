@@ -91,9 +91,8 @@ class AddDoctorForm(forms.ModelForm):
     )
     gender = forms.ChoiceField(choices=GENDER)
     specialities = forms.ChoiceField(choices=SPECIALITIES)
-    # photo = forms.ImageField()
-    # photo = forms.FileInput()
-    
+
+
     class Meta:
         model = User
         fields = ('email', 'username', 'first_name',
