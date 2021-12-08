@@ -2,7 +2,7 @@ from accounts.models import User
 from django import forms
 from allauth.account.forms import SignupForm
 from phonenumber_field.formfields import PhoneNumberField
-from accounts.constants import GENDER
+from accounts.constants import GENDER, SPECIALITIES
 
 
 class MyCustomSignupForm(SignupForm):
@@ -52,3 +52,49 @@ class MyCustomSignupForm(SignupForm):
         user.save()
         return user
 
+class AddDoctorForm(forms.ModelForm):
+    """ This form for create doctor by administration."""
+    email = forms.EmailField(
+        required=True,
+        max_length=122,
+        widget=forms.TextInput(
+            attrs={"class": "form-control",
+                   "placeholder": "Enter your email name"}
+        ),
+    )
+    username = forms.CharField(
+        max_length=122,
+        widget=forms.TextInput(
+            attrs={"class": "form-control",
+                   "placeholder": "Enter your username"}
+        ),
+    )
+    first_name = forms.CharField(
+        max_length=122,
+        widget=forms.TextInput(
+            attrs={"class": "form-control",
+                   "placeholder": "Enter your first name"}
+        ),
+    )
+    last_name = forms.CharField(
+        max_length=122,
+        widget=forms.TextInput(
+            attrs={"class": "form-control",
+                   "placeholder": "Enter your last name"}
+        ),
+    )
+    contact = PhoneNumberField(
+        widget=forms.TextInput(
+            attrs={"class": "form-control",
+                   "placeholder": "Enter your contact number"}
+        )
+    )
+    gender = forms.ChoiceField(choices=GENDER)
+    specialities = forms.ChoiceField(choices=SPECIALITIES)
+    # photo = forms.ImageField()
+    # photo = forms.FileInput()
+    
+    class Meta:
+        model = User
+        fields = ('email', 'username', 'first_name',
+                  'last_name', 'contact', 'gender', 'specialities', 'photo')
