@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.urls.base import reverse
 from phonenumber_field.modelfields import PhoneNumberField
 from .constants import ROLE, GENDER, SPECIALITIES
 # Create your models here.
@@ -18,3 +19,6 @@ class User(AbstractUser):
 
     def __str__(self):
         return str(self.username)
+
+    def get_absolute_url(self):
+        return reverse('profile', kwargs={'pk': self.id })
