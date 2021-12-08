@@ -53,15 +53,20 @@
                                             <ul id="navigation">
                                                 <li><a href="{% url 'index'%}">home</a></li>
                                                 <li><a href="about.html">About</a></li>
-                                                <li><a href="#">pages <i class="ti-angle-down"></i></a>
+                                                <li><a href="#">Departments <i class="ti-angle-down"></i></a>
                                                     <ul class="submenu">
+                                                        {% if user.is_superuser %}
                                                         <li><a href="{% url 'add_doctor'%}">Add Doctor</a></li>
-                                                        <li><a href="elements.html">elements</a></li>
+                                                        {% endif %}
+                                                        <li><a href="elements.html">departments</a></li>
                                                     </ul>
                                                 </li>
                                                 {% if user.is_authenticated %}
                                                 <li><a href="#">account <i class="ti-angle-down"></i></a>
                                                     <ul class="submenu">
+                                                    {% comment %} {% for u in user %} {% endcomment %}
+                                                    <li><a href="{% url 'profile' user.id%}">Profile</a></li>
+                                                    {% comment %} {% endfor %} {% endcomment %}
                                                     <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
                                                     <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
                                                     </ul>
