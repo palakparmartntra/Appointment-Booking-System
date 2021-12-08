@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.edit import CreateView
+from django.views.generic.detail import DetailView
+from django.views.generic import CreateView, UpdateView
 from accounts.models import User
 from accounts.forms import AddDoctorForm
 from accounts.constants import ROLE
@@ -19,12 +20,8 @@ class AddDoctorView(LoginRequiredMixin, CreateView):
     def post(self, request, *args, **kwargs):
         try:
             form = AddDoctorForm(request.POST, request.FILES)
-            
             if form.is_valid():
-                # import code; code.interact(local=dict(globals(), **locals()))
                 userdata = form.save(commit=False)
-                userdata.photo = request.POST.get('photo')
-                print(userdata)
                 userdata.role = ROLE[0][0]
                 userdata.set_password(userdata.email)
                 userdata.email_verified = True
@@ -35,3 +32,17 @@ class AddDoctorView(LoginRequiredMixin, CreateView):
             logging.error(str(e))
             return render(request, 'account/add_doctor.html', {'form': form})
  
+
+class DoctorProfileView(LoginRequiredMixin, DetailView):
+    """Doctor's detailed profile view"""
+    model = User
+    template_name = 'account/profile.html'
+    context_object_name = "profile"
+
+    
+class UpdateDoctorView(LoginRequiredMixin, UpdateView):
+    """User or admin can update the profile of user"""
+    model = User
+    form_class = AddDoctorForm
+    template_name = 'account/update_doctor.html'
+    success_url = 'profile'
