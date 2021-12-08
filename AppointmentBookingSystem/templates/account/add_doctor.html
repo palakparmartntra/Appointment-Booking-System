@@ -12,7 +12,7 @@
                                         </div>
                                         <div class="col-lg-8">
                                             
-                            <form class="signup" id="signup_form" method="post" action="{% url 'add_doctor' %}">
+                            <form class="signup" id="signup_form" method="post" action="{% url 'add_doctor' %}" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 {{ form.as_p }}
                                 {% if redirect_field_value %}
