@@ -6,7 +6,7 @@ from accounts.models import User
 from accounts.forms import AddDoctorForm
 from accounts.constants import ROLE
 import logging
-
+from django.urls import reverse_lazy
 
 # Create your views here.
 
@@ -25,6 +25,7 @@ class AddDoctorView(LoginRequiredMixin, CreateView):
                 userdata.role = ROLE[0][0]
                 userdata.set_password(userdata.email)
                 userdata.email_verified = True
+                userdata.is_staff = True
                 userdata.save()
                 return redirect('index')
             return render(request, 'account/add_doctor.html', {'form': form})
@@ -45,4 +46,3 @@ class UpdateDoctorView(LoginRequiredMixin, UpdateView):
     model = User
     form_class = AddDoctorForm
     template_name = 'account/update_doctor.html'
-    success_url = 'profile'
