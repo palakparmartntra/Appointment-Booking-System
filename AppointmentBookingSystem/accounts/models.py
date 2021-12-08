@@ -14,7 +14,7 @@ class User(AbstractUser):
         max_length=50, choices=ROLE, null=True, blank=True, default=ROLE[1][1]
     )
     specialities = models.CharField(max_length=20, choices=SPECIALITIES, blank=True, null=True)
-    photo = models.ImageField(upload_to='uploads/', blank=True, null=True)
+    photo = models.FileField(upload_to='image/', blank=True, null=True)
 
     def __str__(self):
         return str(self.username)
