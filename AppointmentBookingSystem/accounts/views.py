@@ -1,3 +1,4 @@
+from allauth.account.models import EmailAddress
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.detail import DetailView
@@ -6,7 +7,8 @@ from accounts.models import User
 from accounts.forms import AddDoctorForm
 from accounts.constants import ROLE
 import logging
-from django.urls import reverse_lazy
+from accounts.services import Account
+
 
 # Create your views here.
 
@@ -27,6 +29,7 @@ class AddDoctorView(LoginRequiredMixin, CreateView):
                 userdata.email_verified = True
                 userdata.is_staff = True
                 userdata.save()
+                Account.set_email(self, userdata)
                 return redirect('index')
             return render(request, 'account/add_doctor.html', {'form': form})
         except Exception as e:
@@ -46,3 +49,4 @@ class UpdateDoctorView(LoginRequiredMixin, UpdateView):
     model = User
     form_class = AddDoctorForm
     template_name = 'account/update_doctor.html'
+
