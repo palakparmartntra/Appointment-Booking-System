@@ -4,10 +4,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.detail import DetailView
 from django.views.generic import CreateView, UpdateView
 from accounts.models import User
-from accounts.forms import AddDoctorForm
+from accounts.forms import AddDoctorForm, ChangePasswordForm
 from accounts.constants import ROLE
 import logging
 from accounts.services import Account
+from django.contrib.auth.views import PasswordChangeView
+from django.urls import reverse_lazy
+
 
 
 # Create your views here.
@@ -50,3 +53,10 @@ class UpdateDoctorView(LoginRequiredMixin, UpdateView):
     form_class = AddDoctorForm
     template_name = 'account/update_doctor.html'
 
+
+class ChangeDoctorPasswordView(PasswordChangeView):
+    """for doctor to change their password"""
+    model = User
+    form_class = ChangePasswordForm
+    template_name = 'account/change_password.html'
+    success_url = reverse_lazy('index')
