@@ -16,6 +16,7 @@ class User(AbstractUser):
     )
     specialities = models.CharField(max_length=20, choices=SPECIALITIES, blank=True, null=True)
     photo = models.ImageField(upload_to='image/', blank=True, null=True)
+    email_verified = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.username)
