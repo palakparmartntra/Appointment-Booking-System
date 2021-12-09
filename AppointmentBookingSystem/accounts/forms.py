@@ -3,6 +3,7 @@ from django import forms
 from allauth.account.forms import SignupForm
 from phonenumber_field.formfields import PhoneNumberField
 from accounts.constants import GENDER, SPECIALITIES
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 class MyCustomSignupForm(SignupForm):
@@ -48,7 +49,6 @@ class MyCustomSignupForm(SignupForm):
         user.last_name = self.cleaned_data["last_name"]
         user.contact = self.cleaned_data["contact"]
         user.gender = self.cleaned_data["gender"]
-
         user.save()
         return user
 
@@ -97,3 +97,15 @@ class AddDoctorForm(forms.ModelForm):
         model = User
         fields = ('email', 'username', 'first_name',
                   'last_name', 'contact', 'gender', 'specialities', 'photo')
+
+
+class ChangePasswordForm(PasswordChangeForm):
+    error_css_class = 'has-error'
+    error_messages = {
+        'password_incorrect': "The old password is not correct. Please try again."}
+    old_password = forms.CharField(required=True, label='Old Password', widget=forms.PasswordInput(
+        attrs={'class': 'form-control'}), error_messages={'required': 'The password can not be empty'})
+    new_password1 = forms.CharField(required=True, label='New Password', widget=forms.PasswordInput(
+        attrs={'class': 'form-control'}), error_messages={'required': 'The password can not be empty'})
+    new_password2 = forms.CharField(required=True, label='New Password (Repeat)', widget=forms.PasswordInput(
+        attrs={'class': 'form-control'}), error_messages={'required': 'The password can not be empty'})
