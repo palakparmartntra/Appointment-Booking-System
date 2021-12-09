@@ -9,9 +9,11 @@
             <div class="col-xl-6 col-lg-6">
                 <div class="col-xl-6 col-lg-6">
                     <div class="welcome_thumb">
+                        {% if user.is_staff %}
                         <div class="thumb_1">
                             <img src="{{profile.photo.url}}">
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
