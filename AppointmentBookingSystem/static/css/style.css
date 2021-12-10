@@ -2531,6 +2531,7 @@ h3 {
 
 /* line 42, ../../Arafath/CL/january 2020/241. Medical/HTML/scss/_bradcam.scss */
 .popup_box {
+  background: #e3e3e3;
   background: #fff;
   display: inline-block;
   z-index: 9;
@@ -3521,6 +3522,7 @@ h3 {
 .book_apointment_area {
   background-image: url(../img/banner/form_bg.jpg);
   background-repeat: no-repeat;
+  background-attachment: fixed;
   background-position: center center;
   background-size: cover;
   padding: 150px 0;
