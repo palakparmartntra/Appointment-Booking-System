@@ -12,7 +12,12 @@
   -ms-flex-pack: start;
   justify-content: start;
 }
-
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link{
+color:#495057;
+background-color:#fff;
+border-color:#d8e5ef  #d8e5ef  #fff;
+}
 /* line 13, ../../Arafath/CL/january 2020/241. Medical/HTML/scss/_extend.scss */
 .overlay::before {
   background-image: -moz-linear-gradient(0deg, rgba(0, 28, 100, 0.8) 21%, rgba(0, 28, 100, 0.8) 22%, rgba(0, 53, 187, 0.3) 100%, #0035bb 100%);
