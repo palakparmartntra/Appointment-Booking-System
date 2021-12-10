@@ -15,3 +15,4 @@ class Appointment(models.Model):
     update_date = models.DateTimeField()
     status = models.CharField(max_length=50, choices=STATUS, null=True, blank=True)
     description = models.TextField()
+
