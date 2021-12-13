@@ -31,9 +31,17 @@
                                         </div>
                                         <div class="book_room">
                                             <div class="book_btn">
-                                                <a class="popup-with-form" href="#test-form">Book  Appointment</a>
-                                            </div>
+                                                {% if user.role == "Patient" %}
+                                                <a class="popup-with-form" href="#test-form" >Book  Appointment</a>
+                                            {% else %}
+                                            {% endif%} 
+                                           
+                                            
+                                            <form id="test-form" class="white-popup-block mfp-hide" class="booking" method="post" action="{% url 'booking' %}">
+                                            </form>
                                         </div>
+                                        </div>
+                                     
                                     </div>
                                 </div>
                             </div>
@@ -44,5 +52,34 @@
         </div>
     </div>
 </div>
+<script>
+    $('.datepicker').datepicker({
+        iconsLibrary: 'fontawesome',
+        icons: {
+            rightIcon: '<span class="fa fa-calendar"></span>'
+        }
+    });
 
+    $('.timepicker').timepicker({
+        iconsLibrary: 'fontawesome',
+        icons: {
+            rightIcon: '<span class="fa fa-clock-o"></span>'
+        }
+    });
+
+
+$('.popup-with-form').on('click',function(){
+$.ajax(
+{
+    type:"GET",
+    url: "appointments/booking/",
+    success: function( data ) 
+    {
+        $('#test-form').html(data);
+        $('#id_doctor').select2();
+        
+    }
+ })
+});
+</script>
 {% endblock %}
