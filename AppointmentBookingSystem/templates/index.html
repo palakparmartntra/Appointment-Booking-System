@@ -26,12 +26,14 @@
     <link rel="stylesheet" href="{% static 'css/animate.css' %}">
     <link rel="stylesheet" href="{% static 'css/slicknav.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="{% static 'js/vendor/jquery-1.12.4.min.js' %}"></script>
+
+
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 </head>
 
 <body>
-
-
     <!-- header-start -->
     <header>
         <div class="header-area ">
@@ -61,6 +63,13 @@
                                                         <li><a href="{% url 'specialities'%}">Specialities</a></li>
                                                     </ul>
                                                 </li>
+                                                {% if user.is_staff %}
+                                                <li><a href="#">Appointments <i class="ti-angle-down"></i></a>
+                                                    <ul class="submenu">   
+                                                        <li><a href="{% url 'appointment_list'%}">lists</a></li>                                                       
+                                                    </ul>
+                                                </li>
+                                                {% endif %}
                                                 {% if user.is_authenticated %}
                                                 <li><a href="#">account <i class="ti-angle-down"></i></a>
                                                     <ul class="submenu">
@@ -71,70 +80,20 @@
                                                 {% else %}
                                                     <li><a href="{% url 'account_login' %}">Sign In</a></li>
                                                 {% endif %}
+                                                </li>
                                             </ul>
                                         </nav>
                                     </div>
                                     <div class="book_room">
                                         <div class="book_btn">
-                                            {% if user.role == "Patient" %}
-                                            <a class="popup-with-form" href="#test-form">Book  Appointment</a>
-                                            {% else %}
-                                               
-                                            {% endif%}
                                             
                                         </div>
-                                        <form id="test-form" class="white-popup-block mfp-hide">
-                                            <div class="popup_box ">
-                                                <div class="popup_inner">
-                                                    <h3>
-                                                        Book an 
-                                                    <span>Appointment</span>
-                                                    </h3>
-                                                    <form action="#">
-                                                        <div class="row">
-                                                            <div class="col-xl-12">
-                                                                <select class="form-select wide" id="default-select" class="">
-                                                                    <option data-display="Please select doctor to visit">Please select doctor to visit </option>
-                                                                    <option value="1">Anaf</option>
-                                                                    <option value="2">Nayna Therapy</option>
-                                                                    <option value="3">Nadif</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="col-xl-9">
-                                                                <input type="text"  placeholder="Your name ">
-                                                            </div>
-                                                            <div class="col-xl-3">
-                                                                <input type="text"  placeholder="Your age">
-                                                            </div>
-                                                            <div class="col-xl-6">
-                                                                <input type="text"  placeholder="Phone number ">
-                                                            </div>
-                                                            <div class="col-xl-6">
-                                                                <input type="email"  placeholder="Email Address">
-                                                            </div>
-                                                            <div class="col-xl-6">
-                                                                <input class="datepicker" placeholder="Appointment Date">
-                                                            </div>
-                                                            <div class="col-xl-6">
-                                                                <input class="timepicker" placeholder="Suitable time">
-                                                            </div>
-                                                            <div class="col-xl-12">
-                                                                
-                                                                <button type="submit" class="boxed-btn3">Make an Appointment</button>
-                                                              
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </form>
+                                       
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12">
-                            <div class="mobile_menu d-block d-lg-none"></div>
-                        </div>
+    
                     </div>
                 </div>
             </div>
@@ -153,8 +112,14 @@
                                 <span>the best medical center</span>
                                 <h3> <span>Bringing health</span> <br>
                                     to life for the whole family.</h3>
-                                <a href="{% url 'account_login' %}" class="boxed-btn5">Discover More
-                                </a>
+                                {% comment %} <a href="{% url 'account_login' %}" class="boxed-btn5">Discover More</a> {% endcomment %}
+                                {% if user.role == "Patient" %}
+                                    <a class="popup-with-form boxed-btn5" href="#test-form" >Book  Appointment</a>
+                                {% else %}
+                                {% endif%}
+
+                                <form id="test-form" class="white-popup-block mfp-hide" class="booking" method="post" action="{% url 'booking' %}">
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -191,7 +156,7 @@
     <script src="{% static 'js/jquery.form.js' %}"></script>
     <script src="{% static 'js/jquery.validate.min.js' %}"></script>
     <script src="{% static 'js/mail-script.js' %}"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{% static 'js/main.js' %}"></script>
     <script>
         $('.datepicker').datepicker({
@@ -207,8 +172,20 @@
                 rightIcon: '<span class="fa fa-clock-o"></span>'
             }
         });
-    $(document).ready(function() {
-    $('.js-example-basic-multiple').select2();
+
+
+    $('.popup-with-form').on('click',function(){
+    $.ajax(
+    {
+        type:"GET",
+        url: "../../appointments/booking/",
+        success: function( data ) 
+        {
+            $('#test-form').html(data);
+            $('#id_doctor').select2();
+            
+        }
+     })
 });
     </script>
 </body>
