@@ -1,12 +1,13 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import models
 from django.shortcuts import render, redirect
 from django.views.generic.base import View
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView
 from accounts.constants import ROLE, SPECIALITIES
 from accounts.models import User
 from django.db.models import Count
 from appointments.forms import AppointmentForm
-
+from appointments.models import STATUS, Appointment
 
 # Create your views here.
 
@@ -37,3 +38,30 @@ class BookAppointment(View):
         else:
             form = AppointmentForm()
             return render(request, 'account/_application_form.html', {'form': form}) 
+
+
+class AppointmentListView(LoginRequiredMixin, ListView):
+    """ for appointment list of doctor"""
+    model = Appointment
+    template_name = "appointment_list.html"
+    context_object_name = "appoint_list"
+    paginate_by = 6
+
+    def get_queryset(self):
+        filter = self.request.GET.get('filter')
+        search = self.request.GET.get('search', '')
+        query = Appointment.objects.filter(doctor=self.request.user)
+        print(search)
+        print(filter)
+        if search:
+            query =  query.filter(patient__username__icontains = search )
+        if filter:
+            query =  query.filter(status = filter) 
+        return query 
+ 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter_option'] = Appointment.objects.filter(doctor = self.request.user).values('status').distinct()
+        context['filter'] = self.request.GET.get('filter')
+        context['search'] = self.request.GET.get('search')
+        return context
