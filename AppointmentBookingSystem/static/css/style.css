@@ -2776,7 +2776,10 @@ h3 {
   background-position: center center;
   background-size: cover;
   padding-top: 200px;
-  padding-bottom: 200px;
+  
+  background-attachment: fixed;
+
+
 }
 
 @media (max-width: 767px) {
@@ -4077,9 +4080,9 @@ h6 {
 }
 
 /* line 353, ../../Arafath/CL/january 2020/241. Medical/HTML/scss/_elements.scss */
-.progress-table-wrap {
+/* .progress-table-wrap {
   overflow-x: scroll;
-}
+} */
 
 /* line 357, ../../Arafath/CL/january 2020/241. Medical/HTML/scss/_elements.scss */
 .progress-table {
@@ -4872,7 +4875,7 @@ h6 {
   border: none;
   border-radius: 0px;
   height: 40px;
-  background: #f9f9ff;
+  background: white ;
   padding-left: 20px;
   padding-right: 40px;
 }
@@ -5668,7 +5671,7 @@ h6 {
 
 /* line 660, ../../Arafath/CL/january 2020/241. Medical/HTML/scss/_blog.scss */
 .blog_right_sidebar .single_sidebar_widget {
-  background: #fbf9ff;
+  background: #e9ecef;
   padding: 30px;
   margin-bottom: 30px;
 }
