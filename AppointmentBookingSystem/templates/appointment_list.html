@@ -1,0 +1,72 @@
+{% extends 'index.html' %}
+{% load static   %}
+{% block content %}
+<div class="depertment_area">
+    <div class="container">
+<div class="whole-wrap">
+    <div class="container box_1170">
+        <div class="section-top-border">
+            <div class="row">
+                <div class="col-lg-8 col-md-8">
+                    <h3 class="mb-30">Appointment List</h3>
+                    <div class="progress-table-wrap">
+                        <div class="progress-table">
+                            <div class="table-head">
+                                <div class="country">Patient Name</div>
+                                <div class="visit">Date</div>
+                                <div class="visit">Time</div>
+                                <div class="visit">Status</div>
+                            </div>
+                            {% for list in appoint_list %}
+                            <div class="table-row">
+                                <div class="country">{{list.patient}}</div>
+                                <div class="visit">{{list.appoint_date|date}}</div>
+                                <div class="visit">{{list.appoint_date|time}}</div>
+                                <div class="visit">{{list.get_status_display}}</div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="blog_right_sidebar">
+                        <aside class="single_sidebar_widget newsletter_widget">
+                            <div class="single-element-widget mt-30">
+                                <h3 class="mb-20">Filter</h3>
+                                <div class="default-select" id="default-select">
+                                    <select name="filter_status" id="filter_status">
+                                        <option value="" >---</option>
+                                        {% for f in filter_option %}
+                                            <option value="{{f.status}}" {% if filter == f.status %}selected  {% else %}{% endif %} >{{f.status}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div> 
+                        </aside>
+                        <aside class="single_sidebar_widget search_widget">
+                
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" name='search' {% if search %} value='{{search}}' {% else %}  {% endif %}placeholder="Search"  onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search patient'" id="search">
+                                    </div>
+                                </div>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function (){
+
+        $('#filter_status , #search').change(function() {
+            var id = $('#filter_status').val();
+            var search = $('#search').val();
+            $.get("{% url 'appointment_list' %}", {'filter' : id, 'search': search } , function (data) {
+                window.location.replace("http://127.0.0.1:8000/appointments/appointment_list/?filter="+id + "&search="+search );
+            });
+        });
+    });
+</script>
+{% endblock %}
