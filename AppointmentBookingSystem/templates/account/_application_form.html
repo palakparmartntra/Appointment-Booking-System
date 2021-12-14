@@ -1,0 +1,38 @@
+<div class="popup_box ">
+    <div class="popup_inner">
+        <h3>Book an <span>Appointment</span></h3>
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div class= "row">
+                <label class="col-md-3 col-form-label">{{field.label_tag}} <span class="text-danger">*</span></label>
+                <div class="col-md-6">{{field}}</div>
+            </div>
+            {% for error in field.errors %}
+                <p style = "color : red">{{error}}</p>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <p style = "color : red">{{error}}</p>
+        {% endfor %}
+        <div class="col-xl-12">
+            <button type="submit" class="boxed-btn3">Make an Appointment</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#id_appoint_date_0').datepicker({
+        iconsLibrary: 'fontawesome',
+        icons: {
+            rightIcon: '<span class="fa fa-calendar"></span>'
+        }
+        minDate: new Date()
+    });
+    $('#id_appoint_date_1').timepicker({
+        iconsLibrary: 'fontawesome',
+        icons: {
+            rightIcon: '<span class="fa fa-clock-o"></span>'
+        }
+    });
+</script>
