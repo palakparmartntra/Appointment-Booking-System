@@ -24,8 +24,8 @@ class SpecialitiesView(View):
 
 class BookAppointment(View):
     def get(self, request):
-        form = AppointmentForm()
-        print(form)
+        user = request.GET.get('doctor_id')
+        form = AppointmentForm(initial={'doctor': user})
         return render(request, 'account/_application_form.html', {'form': form})    
 
     def post(self, request):
@@ -45,7 +45,9 @@ class AppointmentListView(LoginRequiredMixin, ListView):
     model = Appointment
     template_name = "appointment_list.html"
     context_object_name = "appoint_list"
-    paginate_by = 6
+    # paginate_by = 4
+
+
 
     def get_queryset(self):
         filter = self.request.GET.get('filter')
@@ -65,3 +67,4 @@ class AppointmentListView(LoginRequiredMixin, ListView):
         context['filter'] = self.request.GET.get('filter')
         context['search'] = self.request.GET.get('search')
         return context
+
