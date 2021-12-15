@@ -20,19 +20,15 @@
         </div>
     </div>
 </div>
-
 <script>
-    $('#id_appoint_date_0').datepicker({
-        iconsLibrary: 'fontawesome',
-        icons: {
-            rightIcon: '<span class="fa fa-calendar"></span>'
-        }
-        minDate: new Date()
-    });
-    $('#id_appoint_date_1').timepicker({
-        iconsLibrary: 'fontawesome',
-        icons: {
-            rightIcon: '<span class="fa fa-clock-o"></span>'
-        }
-    });
+    $(document).ready(function (){
+        var d = new Date();
+        var fullDate=d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate() + "T00:00";
+        console.log(fullDate);
+        $('.datetimepicker').attr(
+             
+            {'min': fullDate }
+        );
+        
+    });  
 </script>
