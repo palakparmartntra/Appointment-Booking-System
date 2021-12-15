@@ -1,8 +1,7 @@
 from accounts.models import User
 from appointments.models import Appointment
 from django import forms
-from accounts.constants import GENDER, ROLE, SPECIALITIES
-from django.utils import timezone
+from accounts.constants import ROLE
 import datetime
 
 class AppointmentForm(forms.ModelForm):
@@ -19,4 +18,3 @@ class AppointmentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(AppointmentForm, self).__init__(*args, **kwargs)
         self.fields['doctor'].queryset = User.objects.filter(role=ROLE[0][0])
-         
