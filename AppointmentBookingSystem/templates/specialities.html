@@ -32,7 +32,7 @@
                                         <div class="book_room">
                                             <div class="book_btn">
                                                 {% if user.role == "Patient" %}
-                                                <a class="popup-with-form" href="#test-form" >Book  Appointment</a>
+                                                <a class="popup-with-form" href="#test-form" data-value={{d.id}}>Book  Appointment</a>
                                             {% else %}
                                             {% endif%} 
                                            
@@ -54,17 +54,18 @@
 </div>
 <script>
 $('.popup-with-form').on('click',function(){
-$.ajax(
-{
-    type:"GET",
-    url: "appointments/booking/",
-    success: function( data ) 
-    {
-        $('#test-form').html(data)
-        $('#id_doctor').select2();
-        
-    }
- })
+    var doctorId = $(this).data('value');
+    $.ajax(
+        {   
+            type:"GET",
+            url: "../../appointments/booking/",
+            data: { 'doctor_id': doctorId },
+            success: function( data ) 
+            {
+                $('#test-form').html(data)
+                $('#id_doctor').select2();
+            }
+    })
 });
 </script>
 {% endblock %}
