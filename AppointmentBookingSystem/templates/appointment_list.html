@@ -10,24 +10,31 @@
                 <div class="col-lg-8 col-md-8">
                     <h3 class="mb-30">Appointment List</h3>
                     <div class="progress-table-wrap">
-                        <div class="progress-table">
-                            <div class="table-head">
-                                <div class="country">Patient Name</div>
-                                <div class="visit">Date</div>
-                                <div class="visit">Time</div>
-                                <div class="visit">Status</div>
-                            </div>
-                            {% for list in appoint_list %}
-                            <div class="table-row">
-                                <div class="country">{{list.patient}}</div>
-                                <div class="visit">{{list.appoint_date|date}}</div>
-                                <div class="visit">{{list.appoint_date|time}}</div>
-                                <div class="visit">{{list.get_status_display}}</div>
-                            </div>
-                            {% endfor %}
-                        </div>
+                        <table id="table_id" class="display">
+                            <thead>
+                                <tr>
+                                    <th>Patient Name</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for list in appoint_list %}
+                                <tr>
+                                    <td>{{list.patient}}</td>
+                                    <td>{{list.appoint_date|date}}</td>
+                                    <td>{{list.appoint_date|time}}</td>
+                                    <td>{{list.get_status_display}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        
                     </div>
+                   
                 </div>
+                
                 <div class="col-lg-4">
                     <div class="blog_right_sidebar">
                         <aside class="single_sidebar_widget newsletter_widget">
@@ -57,6 +64,12 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready( function () {
+        $('#table_id').DataTable();
+        $(".dataTables_length").hide();
+    } );
+</script>
 <script>
     $(document).ready(function (){
 
