@@ -119,7 +119,7 @@
                                 {% else %}
                                 {% endif%}
 
-                                <form id="test-form" class="white-popup-block mfp-hide" class="booking" method="post" action="{% url 'booking' %}">
+                                <form id="test-form" class="white-popup-block mfp-hide" class="booking" method="post" action="{% url 'booking' %}" >
                                 </form>
                             </div>
                         </div>
@@ -162,22 +162,21 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
 
     <script>
-
-
-    $('.popup-with-form').on('click',function(){
-    $.ajax(
-    {
-        type:"GET",
-        url: "../../appointments/booking/",
-        success: function( data ) 
-        {
-            $('#test-form').html(data);
-            $('#id_doctor').select2();
-            
-        }
-     })
-});
-    </script>
+        $('.popup-with-form').on('click',function(){
+            var doctorId = $(this).data('value');
+            $.ajax(
+                {   
+                    type:"GET",
+                    url: "../../appointments/booking/",
+                    data: { 'doctor_id': doctorId },
+                    success: function( data ) 
+                    {
+                        $('#test-form').html(data)
+                        $('#id_doctor').select2();
+                    }
+            })
+        });
+        </script>
 </body>
 
 </html>
