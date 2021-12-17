@@ -52,20 +52,5 @@
         </div>
     </div>
 </div>
-<script>
-$('.popup-with-form').on('click',function(){
-    var doctorId = $(this).data('value');
-    $.ajax(
-        {   
-            type:"GET",
-            url: "../../appointments/booking/",
-            data: { 'doctor_id': doctorId },
-            success: function( data ) 
-            {
-                $('#test-form').html(data)
-                $('#id_doctor').select2();
-            }
-    })
-});
-</script>
+
 {% endblock %}
