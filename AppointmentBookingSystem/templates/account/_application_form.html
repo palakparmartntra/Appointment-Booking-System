@@ -29,6 +29,22 @@
              
             {'min': fullDate }
         );
+
+       
         
     });  
+
+    $('#id_specialities').on('change', function() {
+        var specId = $(this).val();
+        console.log(specId);
+        $.ajax({   
+                type:"GET",
+                url : "appointments/load_doc/",
+                data: { 'sepc': specId },
+                success: function(data) 
+                {
+                    $("#id_doctor").html(data);
+                }
+            })
+    });
 </script>
