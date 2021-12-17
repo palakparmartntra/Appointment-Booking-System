@@ -8,7 +8,7 @@ from accounts.models import User
 from django.db.models import Count
 from appointments.forms import AppointmentForm
 from appointments.models import STATUS, Appointment
-
+from django.http import JsonResponse
 # Create your views here.
 
 
@@ -23,9 +23,17 @@ class SpecialitiesView(View):
 
 
 class BookAppointment(View):
-    def get(self, request):
+    """ for create appointment"""
+    def get(self, request): 
         user = request.GET.get('doctor_id')
-        form = AppointmentForm(initial={'doctor': user})
+        if user:
+            spec = User.objects.get(id = user)
+            form = AppointmentForm(initial={'specialities':spec.specialities ,'doctor': user})
+
+            print(spec.specialities)
+            print(user)
+        else:
+            form = AppointmentForm()
         return render(request, 'account/_application_form.html', {'form': form})    
 
     def post(self, request):
@@ -39,15 +47,17 @@ class BookAppointment(View):
             form = AppointmentForm()
             return render(request, 'account/_application_form.html', {'form': form}) 
 
+def load_doc(request):
+    spec = request.GET.get('sepc')
+    doc = User.objects.filter(specialities = spec)
+    return render(request, 'account/_doc_list.html', {'doc_list': doc }) 
 
 class AppointmentListView(LoginRequiredMixin, ListView):
     """ for appointment list of doctor"""
     model = Appointment
     template_name = "appointment_list.html"
     context_object_name = "appoint_list"
-    # paginate_by = 4
-
-
+    
 
     def get_queryset(self):
         filter = self.request.GET.get('filter')
