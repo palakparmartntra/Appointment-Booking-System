@@ -8,7 +8,8 @@ from accounts.models import User
 from django.db.models import Count
 from appointments.forms import AppointmentForm
 from appointments.models import STATUS, Appointment
-from django.http import JsonResponse
+from django.core.mail import send_mail
+
 # Create your views here.
 
 
@@ -42,6 +43,9 @@ class BookAppointment(View):
             appointment_data = form.save(commit=False)
             appointment_data.patient = self.request.user
             appointment_data.save()
+            SUBJECT = "New Appointment..."
+            MESSAGE = "Hello {doctor} \nappointmentt for checkup....\nappointment date :{date} \n description : {desc}".format(doctor = appointment_data.doctor, date = appointment_data.appoint_date, desc = appointment_data.description)
+            send_mail(SUBJECT,MESSAGE,appointment_data.patient ,[appointment_data.doctor],fail_silently=False,)
             return redirect('index')
         else:
             form = AppointmentForm()
