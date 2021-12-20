@@ -2768,7 +2768,10 @@ h3 {
 .book_apointment_area .popup_box {
   width: 100% !important;
 }
-
+.errorlist
+    {
+        color: red;
+    }
 /* line 1, ../../Arafath/CL/january 2020/241. Medical/HTML/scss/_department.scss */
 .depertment_area {
   background-image: url(../img/banner/department.jpg);
