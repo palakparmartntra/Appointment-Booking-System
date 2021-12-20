@@ -100,13 +100,21 @@
             </div>
         </div>
     </header>
-    <!-- header-end -->
+    <!-- header-end --> 
 {% block content %}
     <!-- slider_area_start -->
     <div class="slider_area">
         <div class="slider_active owl-carousel">
             <div class="single_slider  d-flex align-items-center slider_bg_1 overlay">
                 <div class="container">
+                    {% for message in messages %}
+                    <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      {{ message }}
+                    </div>
+                  {% endfor %}
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="slider_text ">
