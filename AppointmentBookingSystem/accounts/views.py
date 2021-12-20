@@ -10,6 +10,7 @@ import logging
 from accounts.services import Account
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
+from django.contrib import messages
 
 
 
@@ -33,6 +34,7 @@ class AddDoctorView(LoginRequiredMixin, CreateView):
                 userdata.is_staff = True
                 userdata.save()
                 Account.set_email(self, userdata)
+                messages.success(request, 'add doctor successfully!')
                 return redirect('index')
             return render(request, 'account/add_doctor.html', {'form': form})
         except Exception as e:
