@@ -9,7 +9,7 @@ from django.db.models import Count
 from appointments.forms import AppointmentForm
 from appointments.models import STATUS, Appointment
 from django.core.mail import send_mail
-
+import datetime
 # Create your views here.
 
 
@@ -30,9 +30,6 @@ class BookAppointment(View):
         if user:
             spec = User.objects.get(id = user)
             form = AppointmentForm(initial={'specialities':spec.specialities ,'doctor': user})
-
-            print(spec.specialities)
-            print(user)
         else:
             form = AppointmentForm()
         return render(request, 'account/_application_form.html', {'form': form})    
@@ -67,12 +64,18 @@ class AppointmentListView(LoginRequiredMixin, ListView):
         filter = self.request.GET.get('filter')
         search = self.request.GET.get('search', '')
         query = Appointment.objects.filter(doctor=self.request.user)
-        print(search)
-        print(filter)
+        # import code; code.interact(local=dict(globals(), **locals()))
         if search:
             query =  query.filter(patient__username__icontains = search )
         if filter:
-            query =  query.filter(status = filter) 
+            query =  query.filter(status = filter)
+        for q in query:
+            if q.appoint_date.date() < datetime.date.today():
+                q.status = STATUS[1][1]
+                q.save()
+            else:
+                q.status = STATUS[0][0]
+                q.save()
         return query 
  
     def get_context_data(self, **kwargs):
