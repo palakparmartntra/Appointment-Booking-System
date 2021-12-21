@@ -6,7 +6,6 @@ import datetime
 
 class AppointmentForm(forms.ModelForm):
     """ This form for create appointment ."""
-    # specialities = forms.ChoiceField(choice= SPECIALITIES)
     specialities = forms.ChoiceField(choices=SPECIALITIES)
     class Meta:
         model = Appointment
@@ -16,7 +15,6 @@ class AppointmentForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        # self.request = kwargs.pop("request")
         super(AppointmentForm, self).__init__(*args, **kwargs)
         self.fields['doctor'].queryset = User.objects.filter(role=ROLE[0][0])
         if 'specialities' in self.data:   
