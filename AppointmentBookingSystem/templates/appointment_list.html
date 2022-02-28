@@ -22,7 +22,7 @@
                             <tbody>
                                 {% for list in appoint_list %}
                                 <tr>
-                                    <td>{{list.patient}}</td>
+                                    <td ><a href="{% url 'appointment' list.id %}">{{list.patient}}</a></td>
                                     <td>{{list.appoint_date|date}}</td>
                                     <td>{{list.appoint_date|time}}</td>
                                     <td>{{list.get_status_display}}</td>
@@ -41,23 +41,24 @@
                             <div class="single-element-widget mt-30">
                                 <h3 class="mb-20">Filter</h3>
                                 <div class="default-select" id="default-select">
-                                    <select name="filter_status" id="filter_status">
+                                    <select name="filter_status" id="filter_status" onchange="Data();">
                                         <option value="" >---</option>
                                         {% for f in filter_option %}
-                                            <option value="{{f.status}}" {% if filter == f.status %}selected  {% else %}{% endif %} >{{f.status}}</option>
+                                            {% comment %} <option value="{{f.status}}" {% if filter == f.status %}selected  {% else %}{% endif %} >{{f.status}}</option> {% endcomment %}
+                                            <option value="{{f.status}}">{{f.status}}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
                             </div> 
                         </aside>
-                        <aside class="single_sidebar_widget search_widget">
+                        {% comment %} <aside class="single_sidebar_widget search_widget">
                 
                                 <div class="form-group">
                                     <div class="input-group mb-3">
                                         <input type="text" class="form-control" name='search' {% if search %} value='{{search}}' {% else %}  {% endif %}placeholder="Search"  onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search patient'" id="search">
                                     </div>
                                 </div>
-                        </aside>
+                        </aside> {% endcomment %}
                     </div>
                 </div>
             </div>
@@ -65,12 +66,19 @@
     </div>
 </div>
 <script>
+    const Data=()=>{
+        var table = $('#table_id').DataTable();
+        table.column(3).search($("#filter_status").val());
+        table.column(3).draw();
+    }
     $(document).ready( function () {
         $('#table_id').DataTable();
         $(".dataTables_length").hide();
     } );
+
+   
 </script>
-<script>
+{% comment %} <script>
     $(document).ready(function (){
         $('#filter_status , #search').change(function() {
             var id = $('#filter_status').val();
@@ -80,5 +88,5 @@
             });
         });
     });
-</script>
+</script> {% endcomment %}
 {% endblock %}

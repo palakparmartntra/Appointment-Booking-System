@@ -55,7 +55,7 @@
                                         <nav>
                                             <ul id="navigation">
                                                 <li><a href="{% url 'index'%}">home</a></li>
-                                                <li><a href="about.html">About</a></li>
+                                                <li><a href="">About</a></li>
                                                 <li><a href="#">Departments <i class="ti-angle-down"></i></a>
                                                     <ul class="submenu">
                                                         {% if user.is_superuser %}
@@ -136,7 +136,22 @@
             </div>
         </div>
     </div>
-   
+    <script>
+        $('.popup-with-form').on('click',function(){
+            var doctorId = $(this).data('value');
+            $.ajax(
+                {   
+                    type:"GET",
+                    url: "../../appointments/booking/",
+                    data: { 'doctor_id': doctorId },
+                    success: function( data ) 
+                    {
+                        $('#test-form').html(data)
+                        $('#id_doctor').select2();
+                    }
+            })
+        });
+    </script>
     {% endblock %}
     <!-- form itself end -->
 
@@ -169,22 +184,7 @@
     <script src="{% static 'js/main.js' %}"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
 
-    <script>
-        $('.popup-with-form').on('click',function(){
-            var doctorId = $(this).data('value');
-            $.ajax(
-                {   
-                    type:"GET",
-                    url: "../../appointments/booking/",
-                    data: { 'doctor_id': doctorId },
-                    success: function( data ) 
-                    {
-                        $('#test-form').html(data)
-                        $('#id_doctor').select2();
-                    }
-            })
-        });
-        </script>
+    
 </body>
 
 </html>

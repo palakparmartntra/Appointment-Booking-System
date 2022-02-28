@@ -21,7 +21,7 @@
     </div>
 </div>
 <script>
-    $(document).ready(function (){
+     $(document).ready(function (){
         var d = new Date();
         var fullDate=d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate() + "T00:00";
         console.log(fullDate);
@@ -29,10 +29,7 @@
              
             {'min': fullDate }
         );
-
-       
-        
-    });  
+    }); 
 
     $('#id_specialities').on('change', function() {
         var specId = $(this).val();
@@ -46,5 +43,5 @@
                     $("#id_doctor").html(data);
                 }
             })
-    });
+    }); 
 </script>

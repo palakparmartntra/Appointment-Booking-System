@@ -1,12 +1,10 @@
 from django.db import models
 from accounts.models import User
+from django.urls import reverse
+from appointments.constants import STATUS
+
 # Create your models here.
-STATUS=(
-    ('Upcoming', 'Upcoming'),
-    ('Completed', 'Completed'),
-    ('Rescheduled', 'Rescheduled'),
-    ('Cancelled', 'Cancelled'),
-)
+
 
 class Appointment(models.Model):
     patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='patient')
@@ -16,3 +14,5 @@ class Appointment(models.Model):
     status = models.CharField(max_length=50, choices=STATUS, null=True, blank=True, default=STATUS[0][0])
     description = models.TextField(null=True, blank=True)
 
+    def get_absolute_url(self):
+        return reverse('appointment', kwargs={'pk': self.id})

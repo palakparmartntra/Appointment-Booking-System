@@ -6,13 +6,13 @@ from django.db.models.signals import post_save
 from AppointmentBookingSystem.settings import EMAIL_HOST_USER
 
 SIGNUP_SUBJECT = (
-    'Tntra: Appointment Booking'
+    'Tntra: registration in appointmentbookingsystem'
 )
 
 SIGNUP_MESSAGES = (
     'Your Email address is Login Password. NOTE: Once you login then Reset Your password'
 )
-SUBJECT=SIGNUP_SUBJECT
+SUBJECT = SIGNUP_SUBJECT
 MESSAGES = SIGNUP_MESSAGES
 
 

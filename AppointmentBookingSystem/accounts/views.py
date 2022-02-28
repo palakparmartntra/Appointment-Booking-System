@@ -4,14 +4,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.detail import DetailView
 from django.views.generic import CreateView, UpdateView
 from accounts.models import User
-from accounts.forms import AddDoctorForm, ChangePasswordForm
+from accounts.forms import AddDoctorForm, ChangePasswordForm, UpdateDoctorForm
 from accounts.constants import ROLE
 import logging
 from accounts.services import Account
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
 from django.contrib import messages
-
 
 
 # Create your views here.
@@ -22,7 +21,7 @@ class AddDoctorView(LoginRequiredMixin, CreateView):
     form_class = AddDoctorForm
     template_name = 'account/add_doctor.html'
     success_url = 'index'
-    
+
     def post(self, request, *args, **kwargs):
         try:
             form = AddDoctorForm(request.POST, request.FILES)
@@ -40,7 +39,7 @@ class AddDoctorView(LoginRequiredMixin, CreateView):
         except Exception as e:
             logging.error(str(e))
             return render(request, 'account/add_doctor.html', {'form': form})
- 
+
 
 class DoctorProfileView(LoginRequiredMixin, DetailView):
     """Doctor's detailed profile view"""
@@ -48,11 +47,11 @@ class DoctorProfileView(LoginRequiredMixin, DetailView):
     template_name = 'account/profile.html'
     context_object_name = "profile"
 
-    
+
 class UpdateDoctorView(LoginRequiredMixin, UpdateView):
     """User or admin can update the profile of user"""
     model = User
-    form_class = AddDoctorForm
+    form_class = UpdateDoctorForm
     template_name = 'account/update_doctor.html'
 
 

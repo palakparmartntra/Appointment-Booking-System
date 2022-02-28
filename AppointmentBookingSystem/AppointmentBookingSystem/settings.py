@@ -170,6 +170,7 @@ AUTH_USER_MODEL = 'accounts.User'
 ACCOUNT_FORMS = {
     # Use our custom signup form
     "signup": "accounts.forms.MyCustomSignupForm",
+    "login": "accounts.forms.MyCustomLoginForm",
 }
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
@@ -181,7 +182,15 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'booking@tntra.io'
-EMAIL_HOST_PASSWORD = 'booking123'
+EMAIL_HOST_USER = 'palak.tntra@gmail.com'
+EMAIL_HOST_PASSWORD = 'crvvkhjopzuplttu'
 
 LOGIN_REDIRECT_URL = "index"
+
+# celery conf.
+
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Kolkata'

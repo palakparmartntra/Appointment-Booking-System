@@ -1,5 +1,6 @@
 from allauth.account.models import EmailAddress
 
+
 class Account():
     def set_email(self, userdata, *args, **kwargs):
         """
