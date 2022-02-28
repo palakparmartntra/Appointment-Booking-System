@@ -2,17 +2,13 @@
 {% load i18n %}
 <!doctype html>
 <html class="no-js" lang="zxx">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Medi</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- <link rel="manifest" href="site.webmanifest"> -->
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.png' %}">
-    <!-- Place favicon.ico in the root directory -->
 
     <!-- CSS here -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
@@ -29,9 +25,6 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
     <script src="{% static 'js/vendor/jquery-1.12.4.min.js' %}"></script>
-
-
-    <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 </head>
 
 <body>
@@ -100,60 +93,59 @@
             </div>
         </div>
     </header>
-    <!-- header-end --> 
-{% block content %}
-    <!-- slider_area_start -->
-    <div class="slider_area">
-        <div class="slider_active owl-carousel">
-            <div class="single_slider  d-flex align-items-center slider_bg_1 overlay">
-                <div class="container">
-                    {% for message in messages %}
-                    <div class="alert {{ message.tags }} alert-dismissible" role="alert">
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                      {{ message }}
-                    </div>
-                  {% endfor %}
-                    <div class="row">
-                        <div class="col-xl-12">
-                            <div class="slider_text ">
-                                <span>the best medical center</span>
-                                <h3> <span>Bringing health</span> <br>
-                                    to life for the whole family.</h3>
-                                {% comment %} <a href="{% url 'account_login' %}" class="boxed-btn5">Discover More</a> {% endcomment %}
-                                {% if user.role == "Patient" %}
-                                    <a class="popup-with-form boxed-btn5" href="#test-form" >Book  Appointment</a>
-                                {% else %}
-                                {% endif%}
+    <!-- header-end -->
 
-                                <form id="test-form" class="white-popup-block mfp-hide" class="booking" method="post" action="{% url 'booking' %}" >
-                                </form>
+    {% block content %}
+    <!-- slider_area_start -->
+        <div class="slider_area">
+            <div class="slider_active owl-carousel">
+                <div class="single_slider  d-flex align-items-center slider_bg_1 overlay">
+                    <div class="container">
+                        {% for message in messages %}
+                            <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="slider_text ">
+                                    <span>the best medical center</span>
+                                    <h3> <span>Bringing health</span> <br> to life for the whole family.</h3>
+                                    {% comment %}
+                                        <a href="{% url 'account_login' %}" class="boxed-btn5">Discover More</a>
+                                    {% endcomment %}
+                                    {% if user.role == "Patient" %}
+                                        <a class="popup-with-form boxed-btn5" href="#test-form" >Book  Appointment</a>
+                                    {% else %}
+                                    {% endif%}
+                                    <form id="test-form" class="white-popup-block mfp-hide" class="booking" method="post" action="{% url 'booking' %}" >
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <script>
-        $('.popup-with-form').on('click',function(){
-            var doctorId = $(this).data('value');
-            $.ajax(
-                {   
+        <script>
+            $('.popup-with-form').on('click',function(){
+                var doctorId = $(this).data('value');
+                $.ajax({
                     type:"GET",
                     url: "../../appointments/booking/",
                     data: { 'doctor_id': doctorId },
-                    success: function( data ) 
+                    success: function( data )
                     {
                         $('#test-form').html(data)
                         $('#id_doctor').select2();
                     }
-            })
-        });
-    </script>
+                })
+            });
+        </script>
     {% endblock %}
-    <!-- form itself end -->
 
     <!-- JS here -->
     <script src="{% static 'js/vendor/modernizr-3.5.0.min.js' %}"></script>
@@ -184,7 +176,6 @@
     <script src="{% static 'js/main.js' %}"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
 
-    
 </body>
 
 </html>
