@@ -14,7 +14,7 @@ class AppointmentForm(forms.ModelForm):
         fields = ('specialities', 'doctor', 'appoint_date', 'description')
         widgets = {
             'appoint_date': forms.DateTimeInput(
-                attrs={'type': 'datetime-local', 'class': 'datetimepicker', 'min': datetime.datetime.today()}),
+                attrs={'type': 'datetime-local', 'class': 'datetimepicker', 'min': 'datetime.datetime.today()'}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -24,3 +24,15 @@ class AppointmentForm(forms.ModelForm):
             spec = self.data.get('specialities')
             doc = User.objects.filter(role=ROLE[0][0])
             self.fields['doctor'].queryset = doc.filter(specialities=spec)
+
+
+class RescheduleForm(forms.ModelForm):
+    """ This form for reschedule appointment by doctor."""
+
+    class Meta:
+        model = Appointment
+        fields = ('appoint_date', 'description')
+        widgets = {
+            'appoint_date': forms.DateTimeInput(
+                attrs={'type': 'datetime-local', 'class': 'datetimepicker', 'min': 'datetime.datetime.today()'}),
+        }
