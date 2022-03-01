@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.detail import DetailView
 from django.views.generic import CreateView, UpdateView
 from accounts.models import User
-from accounts.forms import AddDoctorForm, ChangePasswordForm, UpdateDoctorForm
+from accounts.forms import AddDoctorForm, ChangePasswordForm, UpdateDoctorForm, UpdatePatientForm
 from accounts.constants import ROLE
 import logging
 from accounts.services import Account
@@ -52,7 +52,14 @@ class UpdateDoctorView(LoginRequiredMixin, UpdateView):
     """User or admin can update the profile of user"""
     model = User
     form_class = UpdateDoctorForm
-    template_name = 'account/update_doctor.html'
+    template_name = 'account/update_profile.html'
+
+
+class UpdatePatientView(LoginRequiredMixin, UpdateView):
+    """User or admin can update the profile of user"""
+    model = User
+    form_class = UpdatePatientForm
+    template_name = 'account/update_profile.html'
 
 
 class ChangeDoctorPasswordView(PasswordChangeView):

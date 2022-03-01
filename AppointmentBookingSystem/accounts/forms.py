@@ -144,7 +144,7 @@ class UpdateDoctorForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('email', 'username', 'first_name',
-                  'last_name', 'contact','specialities', 'photo')
+                  'last_name', 'contact', 'specialities', 'photo')
 
 
 class ChangePasswordForm(PasswordChangeForm):
@@ -157,3 +157,46 @@ class ChangePasswordForm(PasswordChangeForm):
         attrs={'class': 'form-control'}), error_messages={'required': 'The password can not be empty'})
     new_password2 = forms.CharField(required=True, label='New Password (Repeat)', widget=forms.PasswordInput(
         attrs={'class': 'form-control'}), error_messages={'required': 'The password can not be empty'})
+
+
+class UpdatePatientForm(forms.ModelForm):
+    email = forms.EmailField(
+        required=True,
+        max_length=122,
+        widget=forms.TextInput(
+            attrs={"class": "form-control",
+                   "placeholder": "Enter your email name"}
+        ),
+    )
+    username = forms.CharField(
+        max_length=122,
+        widget=forms.TextInput(
+            attrs={"class": "form-control",
+                   "placeholder": "Enter your username"}
+        ),
+    )
+    first_name = forms.CharField(
+        max_length=122,
+        widget=forms.TextInput(
+            attrs={"class": "form-control",
+                   "placeholder": "Enter your first name"}
+        ),
+    )
+    last_name = forms.CharField(
+        max_length=122,
+        widget=forms.TextInput(
+            attrs={"class": "form-control",
+                   "placeholder": "Enter your last name"}
+        ),
+    )
+    contact = PhoneNumberField(
+        widget=forms.TextInput(
+            attrs={"class": "form-control",
+                   "placeholder": "Enter your contact number"}
+        )
+    )
+
+    class Meta:
+        model = User
+        fields = ('email', 'username', 'first_name',
+                  'last_name', 'contact')

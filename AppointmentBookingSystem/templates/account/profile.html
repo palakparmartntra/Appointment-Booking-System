@@ -10,9 +10,13 @@
                 <div class="col-xl-6 col-lg-6">
                     <div class="welcome_thumb">
                         {% if user.is_staff %}
-                        <div class="thumb_1">
-                            <img src="{{profile.photo.url}}">
-                        </div>
+                            <div class="thumb_1">
+                                <img src="{{profile.photo.url}}">
+                            </div>
+                        {% else %}
+                            <div class="thumb_1">
+                                <img src="{% static 'avatar.png' %}">
+                            </div>
                         {% endif %}
                     </div>
                 </div>
@@ -25,10 +29,16 @@
                         <li> <i class="flaticon-verified"></i> Email : {{profile.email}} </li>
                         <li> <i class="flaticon-verified"></i> Name : {{profile.first_name}} {{profile.last_name}}</li>
                         <li> <i class="flaticon-verified"></i> Contact : {{profile.contact}}  </li>
+                        {% if user.is_staff %}
                         <li> <i class="flaticon-verified"></i> Role : {{profile.role}}  </li>
                         <li> <i class="flaticon-verified"></i> Speciality : {{profile.specialities}}  </li>
+                        {% endif %}
                     </ul>
-                    <a href="{% url 'update' profile.id %}" class="boxed-btn6">Update</a> 
+                    {% if user.is_staff %}
+                        <a href="{% url 'update' profile.id %}" class="boxed-btn6">Update</a>
+                    {% else %}
+                        <a href="{% url 'update_profile' profile.id %}" class="boxed-btn6">Update</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
