@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.detail import DetailView
 from django.views.generic import CreateView, UpdateView
 from accounts.models import User
-from accounts.forms import AddDoctorForm, ChangePasswordForm, UpdateDoctorForm, UpdatePatientForm
+from accounts.forms import AddDoctorForm, ChangePasswordForm, UpdateDoctorForm
 from accounts.constants import ROLE
 import logging
 from accounts.services import Account
