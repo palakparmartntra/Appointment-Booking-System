@@ -1,10 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db import models
 from django.shortcuts import render, redirect
 from django.views.generic.base import View
-from django.views.generic import CreateView, ListView
+from django.views.generic import ListView, UpdateView
 from django.views.generic.detail import DetailView
-from accounts.constants import ROLE, SPECIALITIES
+from accounts.constants import ROLE
 from accounts.models import User
 from django.db.models import Count
 from appointments.forms import AppointmentForm
@@ -107,14 +106,12 @@ def AppointmentAccept(request, pk, action):
     appointment = Appointment.objects.filter(id=pk)
     if action == "Accept":
         appointment.update(status=STATUS[1][0])
-        return redirect('index')
-        # accept_message = STATUS[1][0]
+        return redirect('appointment_list')
     # elif action == "Reschedule":
-    #     appointment.update(status = STATUS[3][0])
-    #     accept_message = STATUS[3][0]
+    #     appointment.update(status=STATUS[3][0])
+    #     return redirect('appointment_list')
     elif action == "Cancel":
         appointment.update(status=STATUS[4][0])
-        # accept_message = STATUS[4][0]
     appointments = appointment.first()
     return render(request, 'appointment.html', {'appointments': appointments})
 
