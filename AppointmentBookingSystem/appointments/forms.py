@@ -28,7 +28,6 @@ class AppointmentForm(forms.ModelForm):
 
 class RescheduleForm(forms.ModelForm):
     """ This form for reschedule appointment by doctor."""
-
     class Meta:
         model = Appointment
         fields = ('appoint_date', 'description')

@@ -1,12 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.base import View
 from django.views.generic import ListView, UpdateView
 from django.views.generic.detail import DetailView
 from accounts.constants import ROLE
 from accounts.models import User
 from django.db.models import Count
-from appointments.forms import AppointmentForm
+from appointments.forms import AppointmentForm, RescheduleForm
 from appointments.models import STATUS, Appointment
 from django.core.mail import send_mail
 from AppointmentBookingSystem.settings import EMAIL_HOST_USER
@@ -71,12 +71,10 @@ class AppointmentListView(LoginRequiredMixin, ListView):
         # for filter and search functionaties
         # filter = self.request.GET.get('filter')
         # search = self.request.GET.get('search', '')
-
         # if search:
         #     query =  query.filter(patient__username__icontains = search )
         # if filter:
         #     query =  query.filter(status = filter)
-
         # for datetime gone then save completed
         # for q in query:
         #     if q.appoint_date.date() < datetime.date.today():
@@ -107,14 +105,9 @@ def AppointmentAccept(request, pk, action):
     if action == "Accept":
         appointment.update(status=STATUS[1][0])
         return redirect('appointment_list')
-    # elif action == "Reschedule":
-    #     appointment.update(status=STATUS[3][0])
-    #     return redirect('appointment_list')
     elif action == "Cancel":
         appointment.update(status=STATUS[4][0])
-        return redirect('index')
-    elif action == "Cancel":
-        appointment.update(status=STATUS[4][0])
+        return redirect('appointment_list')
     appointments = appointment.first()
     return render(request, 'appointment.html', {'appointments': appointments})
 
@@ -122,19 +115,17 @@ def AppointmentAccept(request, pk, action):
 class RescheduleView(View):
     def get(self, request, pk):
         appointment = Appointment.objects.filter(id=pk).first()
-        print(appointment)
         form = AppointmentForm(instance=appointment)
         form.fields['doctor'].disabled = form.fields['specialities'].disabled = form.fields[
             'specialities'].disabled = True
-        print(form)
         return render(request, '_reschedule_form.html', {'form': form})
 
     def post(self, request, pk):
-        form = AppointmentForm(request.POST)
+        appointment_obj = Appointment.objects.filter(id=pk).first()
+        form = RescheduleForm(request.POST, instance=appointment_obj)
         if form.is_valid():
             appointment_data = form.save(commit=False)
-            appointment_data.save(pk=pk)
-            return redirect('index')
-        else:
-            form = AppointmentForm()
-            return render(request, '_reschedule_form.html', {'form': form})
+            appointment_data.save()
+            appointment = Appointment.objects.filter(id=pk)
+            appointment.update(status=STATUS[3][0])
+            return redirect('appointment_list')
