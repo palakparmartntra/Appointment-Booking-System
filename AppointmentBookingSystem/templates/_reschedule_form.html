@@ -9,11 +9,12 @@
                 <h2 class="contact-title">Reschedule Appointment </h2>
             </div>
             <div class="col-lg-8">
-            <form action="" method="post" id="updateform">
-                {% csrf_token %}
-                {{form.as_p}}
-                <input type="submit" class="btn btn-primary" value="Submit &raquo;">
-            </form>
+                <form action="" method="post" id="updateform">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <input type="submit" class="btn btn-primary" value="Submit &raquo;">
+                </form>
+            </div>
         </div>                                 
     </div>
 </section>
@@ -23,11 +24,8 @@ $(document).ready(function (){
     var fullDate=d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate() + "T00:00";
     console.log(fullDate);
     $('.datetimepicker').attr(
-         
         {'min': fullDate }
     );
-}); 
-
-
+});
 </script>
 {% endblock %}
