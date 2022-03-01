@@ -14,14 +14,9 @@
                 {% if appointments.status == 'Upcoming' %}
                     <a href="{% url 'appointment_cancel' pk=appointments.pk action='Accept' %}" id="accept-app" class="boxed-btn6">Accept</a>
                     <a href="{% url 'appointment_cancel' pk=appointments.pk action='Cancel' %}" value={{appointments.id}} class="boxed-btn6">Cancel</a>
-                {% endif %}
-                {% if appointments.status == 'Accepted' %}
-                    {% comment %} {{accept_message}} {% endcomment %}
+                {% elif appointments.status == 'Accepted' %}
                     <a href="{% url 'reschedule' pk=appointments.pk %}" value={{appointments.id}}  class="boxed-btn6 reschedule">Reschedule</a>
-
-
-                {% endif %}
-                {% if appointments.status == 'Rescheduled' %}
+                {% elif appointments.status == 'Rescheduled' %}
                     <a href="{% url 'reschedule' pk=appointments.pk %}" value={{appointments.id}}  class="boxed-btn6 reschedule">Reschedule</a>
                     <a href="{% url 'appointment_cancel' pk=appointments.pk action='Cancel' %}" value={{appointments.id}} class="boxed-btn6">Cancel</a>
                 {% endif %}
