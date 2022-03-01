@@ -7,7 +7,7 @@ urlpatterns = [
     path('appointment_list/', AppointmentListView.as_view(), name="appointment_list"),
     path('load_doc/', views.load_doc, name="load_doc" ),
     path('<pk>/', AppointmentDetailView.as_view(), name="appointment"),
-    path('accept/<int:pk>/', views.AppointmentAccept, name="appointment_cancel"),
-    path('accept/<int:pk>/<str:action>/', views.AppointmentAccept, name="appointment_cancel"),
+    path('accept/<int:pk>/', views.appointment_accept, name="appointment_cancel"),
+    path('accept/<int:pk>/<str:action>/', views.appointment_accept, name="appointment_cancel"),
     path('reschedule/<pk>', RescheduleView.as_view(), name="reschedule"),
 ] 

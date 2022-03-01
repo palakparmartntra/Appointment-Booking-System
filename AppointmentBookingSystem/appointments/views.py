@@ -15,7 +15,7 @@ from AppointmentBookingSystem.settings import EMAIL_HOST_USER
 # Create your views here.
 
 
-class SpecialitiesView(View):
+class SpecialitiesView(LoginRequiredMixin, View):
     """for specialities of doctors"""
 
     def get(self, request):
@@ -25,7 +25,7 @@ class SpecialitiesView(View):
         return render(request, "specialities.html", data)
 
 
-class BookAppointment(View):
+class BookAppointment(LoginRequiredMixin, View):
     """ for create appointment"""
 
     def get(self, request):
@@ -46,7 +46,7 @@ class BookAppointment(View):
             subject = "New Appointment..."
             message = "Hello {doctor} \nappointmentt for checkup....\nappointment date :{date} \n description : {desc} ".format(
                 doctor=appointment_data.doctor, date=appointment_data.appoint_date,
-                desc="http://127.0.0.1:8000/appointments/{p}/".format(p=appointment_data.patient.id))
+                desc="http://127.0.0.1:8000/appointments/{p}/".format(p=appointment_data.id))
             send_mail(subject, message, EMAIL_HOST_USER, [appointment_data.doctor.email], fail_silently=False, )
             return redirect('index')
         else:
@@ -100,7 +100,7 @@ class AppointmentDetailView(LoginRequiredMixin, DetailView):
     context_object_name = "appointments"
 
 
-def AppointmentAccept(request, pk, action):
+def appointment_accept(request, pk, action):
     appointment = Appointment.objects.filter(id=pk)
     if action == "Accept":
         appointment.update(status=STATUS[1][0])
@@ -112,7 +112,7 @@ def AppointmentAccept(request, pk, action):
     return render(request, 'appointment.html', {'appointments': appointments})
 
 
-class RescheduleView(View):
+class RescheduleView(LoginRequiredMixin, View):
     def get(self, request, pk):
         appointment = Appointment.objects.filter(id=pk).first()
         form = AppointmentForm(instance=appointment)
