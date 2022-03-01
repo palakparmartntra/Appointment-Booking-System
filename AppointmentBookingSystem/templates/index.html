@@ -58,7 +58,9 @@
                                                         <li><a href="{% url 'specialities'%}">Specialities</a></li>
                                                     </ul>
                                                 </li>
-                                                {% if user.is_staff %}
+                                                {% if user.is_superuser %}
+
+                                                {% elif user.is_staff %}
                                                 <li><a href="#">Appointments <i class="ti-angle-down"></i></a>
                                                     <ul class="submenu">   
                                                         <li><a href="{% url 'appointment_list'%}">lists</a></li>                                                       
