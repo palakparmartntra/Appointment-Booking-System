@@ -1,0 +1,24 @@
+{% extends "index.html" %}
+{% load i18n %}
+{% block head_title %}{% trans "Add Doctor" %}{% endblock %}
+{% block content %}
+<section class="contact-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="contact-title">Add Doctor</h2>
+            </div>
+            <div class="col-lg-8">                            
+                <form class="signup" id="signup_form" method="post" action="{% url 'add_doctor' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                    {% endif %}
+                    <button type="submit">{% trans "Create" %} &raquo;</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

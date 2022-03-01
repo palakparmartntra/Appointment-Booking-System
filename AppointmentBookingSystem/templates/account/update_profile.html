@@ -1,0 +1,20 @@
+{% extends "index.html" %}
+{% load i18n %}
+{% block head_title %}{% trans "Update Profile" %}{% endblock %}
+{% block content%}
+<section class="contact-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="contact-title">Update Profile</h2>
+            </div>
+            <div class="col-lg-8">
+            <form action="" method="post" id="updateform" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form.as_p}}
+                <input type="submit" class="btn btn-primary" value="Update &raquo;">
+            </form>
+        </div>                                 
+    </div>
+</section>
+{% endblock %}
