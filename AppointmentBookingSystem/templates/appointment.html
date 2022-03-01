@@ -11,15 +11,20 @@
                 <li> <i class="flaticon-verified"></i> Patient Name : {{appointments.patient}} </li>
                 <li> <i class="flaticon-verified"></i> Date : {{appointments.appoint_date}}</li>
                 <li> <i class="flaticon-verified"></i> Description : {{appointments.description}}  </li>
+                {% if appointments.status == 'Upcoming' %}
+                    <a href="{% url 'appointment_cancel' pk=appointments.pk action='Accept' %}" id="accept-app" class="boxed-btn6">Accept</a>
+                    <a href="{% url 'appointment_cancel' pk=appointments.pk action='Cancel' %}" value={{appointments.id}} class="boxed-btn6">Cancel</a>
+                {% endif %}
                 {% if appointments.status == 'Accepted' %}
                     {% comment %} {{accept_message}} {% endcomment %}
                     <a href="{% url 'reschedule' pk=appointments.pk %}" value={{appointments.id}}  class="boxed-btn6 reschedule">Reschedule</a>
-                {% else %}
-                    {% if appointments %}
-                        <a href="{% url 'appointment_cancel' pk=appointments.pk action="Accept" %}" id="accept-app" class="boxed-btn6">Accept</a>
-                    {% endif %}
-                    <a href="{% url 'appointment_cancel' pk=appointments.pk action="Cancel" %}" value={{appointments.id}} class="boxed-btn6">Cancel</a>
-                {% endif %}  
+
+
+                {% endif %}
+                {% if appointments.status == 'Rescheduled' %}
+                    <a href="{% url 'reschedule' pk=appointments.pk %}" value={{appointments.id}}  class="boxed-btn6 reschedule">Reschedule</a>
+                    <a href="{% url 'appointment_cancel' pk=appointments.pk action='Cancel' %}" value={{appointments.id}} class="boxed-btn6">Cancel</a>
+                {% endif %}
             </ul>
         </div>
     </div>
