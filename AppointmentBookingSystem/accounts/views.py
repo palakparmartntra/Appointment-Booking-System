@@ -1,4 +1,5 @@
-from allauth.account.models import EmailAddress
+import logging
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.detail import DetailView
@@ -7,11 +8,10 @@ from accounts.models import User
 from accounts.forms import AddDoctorForm, ChangePasswordForm, UpdateDoctorForm, UpdatePatientForm
 from accounts.constants import ROLE
 import logging
-from accounts.services import Account
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
 from django.contrib import messages
-
+from accounts.tasks import send_invitation_email
 
 # Create your views here.
 
@@ -32,7 +32,9 @@ class AddDoctorView(LoginRequiredMixin, CreateView):
                 userdata.email_verified = True
                 userdata.is_staff = True
                 userdata.save()
-                Account.set_email(self, userdata)
+                print(userdata)
+                # Account.set_email(self, userdata)
+                send_invitation_email.delay(self, userdata)
                 messages.success(request, 'add doctor successfully!')
                 return redirect('index')
             return render(request, 'account/add_doctor.html', {'form': form})
