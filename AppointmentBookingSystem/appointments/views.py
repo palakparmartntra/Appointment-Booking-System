@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.views.generic.base import View
-from django.views.generic import ListView, UpdateView
+from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from accounts.constants import ROLE
 from accounts.models import User
@@ -11,7 +11,7 @@ from appointments.models import STATUS, Appointment
 from django.core.mail import send_mail
 from AppointmentBookingSystem.settings import EMAIL_HOST_USER
 
-
+from AppointmentBookingSystem.logger import AppLogger
 # Create your views here.
 
 
@@ -19,10 +19,15 @@ class SpecialitiesView(LoginRequiredMixin, View):
     """for specialities of doctors"""
 
     def get(self, request):
-        doctors = User.objects.filter(role=ROLE[0][0])
-        specialities = User.objects.exclude(specialities=None).values('specialities').annotate(Count('specialities'))
-        data = {"specialities": specialities, "doctors": doctors}
-        return render(request, "specialities.html", data)
+        try:
+            doctors = User.objects.filter(role=ROLE[10][0])
+            specialities = User.objects.exclude(specialities=None).values('specialities').annotate(Count('specialities'))
+            data = {"specialities": specialities, "doctors": doctors}
+            return render(request, "specialities.html", data)
+        except Exception as e:
+            var = dict(error=e, class_object=self)
+            AppLogger().log_error(var)
+            return render(request, "specialities.html")
 
 
 class BookAppointment(LoginRequiredMixin, View):
