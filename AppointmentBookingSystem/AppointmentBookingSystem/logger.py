@@ -1,6 +1,6 @@
 import logging
 from concurrent.futures.thread import ThreadPoolExecutor
-# from AppointmentBookingSystem.settings import DEBUG, LOGS_PATH
+from AppointmentBookingSystem.settings import DEBUG, LOGS_PATH
 from logging.handlers import RotatingFileHandler
 import logging
 

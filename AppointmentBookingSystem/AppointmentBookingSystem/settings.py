@@ -191,3 +191,6 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Asia/Kolkata'
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.scheduler:DatabaseScheduler'
+
+LOGS_PATH = f"{BASE_DIR}/.logs/logfile.log"
+os.makedirs(f"{BASE_DIR}/.logs/", exist_ok=True)
