@@ -192,5 +192,28 @@ CELERY_TIMEZONE = 'Asia/Kolkata'
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.scheduler:DatabaseScheduler'
 
-LOGS_PATH = f"{BASE_DIR}/.logs/logfile.log"
+# LOGS_PATH = f"{BASE_DIR}/.logs/logfile.log"
 os.makedirs(f"{BASE_DIR}/.logs/", exist_ok=True)
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": True,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+        "logfile": {
+            "level": "DEBUG",
+            "class": "logging.handlers.RotatingFileHandler",
+            "maxBytes": 52428800,
+            "backupCount": 2,
+            "filename": os.getenv('LOGS_PATH'),
+        },
+    },
+    "loggers": {
+        "invenio": {
+            "handlers": ["console", "logfile"],
+            "level": "INFO",
+            "propagate": False,
+        }
+    },
+}

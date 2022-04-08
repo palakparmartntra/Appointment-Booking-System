@@ -1,6 +1,6 @@
 import logging
 from concurrent.futures.thread import ThreadPoolExecutor
-from AppointmentBookingSystem.settings import DEBUG, LOGS_PATH
+# from AppointmentBookingSystem.settings import DEBUG, LOGS_PATH
 from logging.handlers import RotatingFileHandler
 import logging
 
@@ -12,43 +12,29 @@ class AppLogger:
     a.  `StreamHandler`: Used for stderr error or stdout.
     b.  `RotatingFileHandler`: Used for enter logs in log file.
     """
-    LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    file_name = LOGS_PATH if not DEBUG else 'log_records.log'
-    formatter = logging.Formatter(fmt=LOG_FORMAT)
-    logging.basicConfig(filename=LOGS_PATH, format=LOG_FORMAT, datefmt='%m/%d/%Y %I:%M:%S %p')
+    # LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    #
+    # # logging.basicConfig(filename=LOGS_PATH, format=LOG_FORMAT, datefmt='%m/%d/%Y %I:%M:%S %p')
     logger = logging.getLogger(__name__)
-
-    # File Handler
-    rotating_file_handler = RotatingFileHandler(
-        filename=file_name, maxBytes=100 * 1024 * 1024, backupCount=10, mode='a'
-    )
-    rotating_file_handler.setFormatter(formatter)
-    logger.addHandler(rotating_file_handler)
-
-    # Console Handler
-    console_handler = logging.StreamHandler()
-    console_handler.setFormatter(formatter)
-    logger.addHandler(console_handler)
+    #
+    # # File Handler
+    # rotating_file_handler = RotatingFileHandler(
+    #     filename=LOGS_PATH, maxBytes=10 * 1024, backupCount=2, mode='a'
+    # )
+    # # set format of log - how you want your logs to be formatted
+    # formatter = logging.Formatter(fmt=LOG_FORMAT, datefmt='%m/%d/%Y %I:%M:%S %p')
+    # # set format to formatter
+    # rotating_file_handler.setFormatter(formatter)
+    # logger.addHandler(rotating_file_handler)
+    #
+    # # Console Handler
+    # console_handler = logging.StreamHandler()
+    # console_handler.setFormatter(formatter)
+    # logger.addHandler(console_handler)
 
     def __init__(self):
         super().__init__()
 
-        # self.file_name = LOGS_PATH if not DEBUG else 'log_records.log'
-        # self.formatter = logging.Formatter(fmt=LOG_FORMAT)
-        # logging.basicConfig(filename=LOGS_PATH, format=LOG_FORMAT, datefmt='%m/%d/%Y %I:%M:%S %p')
-        # self.logger = logging.getLogger(__name__ )
-        #
-        # # File Handler
-        # self.rotating_file_handler = RotatingFileHandler(
-        #     filename=self.file_name, maxBytes=100 * 1024 * 1024, backupCount=10, mode='a'
-        # )
-        # self.rotating_file_handler.setFormatter(self.formatter)
-        # self.logger.addHandler(self.rotating_file_handler)
-        #
-        # # Console Handler
-        # self.console_handler = logging.StreamHandler()
-        # self.console_handler.setFormatter(self.formatter)
-        # self.logger.addHandler(self.console_handler)
 
     def data_formatter(self, e):
         data = dict(

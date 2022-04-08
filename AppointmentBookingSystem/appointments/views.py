@@ -10,7 +10,7 @@ from appointments.forms import AppointmentForm, RescheduleForm
 from appointments.models import STATUS, Appointment
 from django.core.mail import send_mail
 from AppointmentBookingSystem.settings import EMAIL_HOST_USER
-
+# from core_logging_module.logger import AppLogger
 from AppointmentBookingSystem.logger import AppLogger
 # Create your views here.
 
@@ -20,13 +20,13 @@ class SpecialitiesView(LoginRequiredMixin, View):
 
     def get(self, request):
         try:
-            doctors = User.objects.filter(role=ROLE[10][0])
+            doctors = User.objects.filter(role=ROLE[0][0])
             specialities = User.objects.exclude(specialities=None).values('specialities').annotate(Count('specialities'))
             data = {"specialities": specialities, "doctors": doctors}
             return render(request, "specialities.html", data)
-        except Exception as e:
-            var = dict(error=e, class_object=self)
-            AppLogger().log_error(var)
+        except Exception as ex:
+            ex = dict(error=ex, class_object=self)
+            AppLogger().log_error(ex)
             return render(request, "specialities.html")
 
 
