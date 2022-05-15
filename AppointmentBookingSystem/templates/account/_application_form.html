@@ -1,0 +1,47 @@
+<div class="popup_box ">
+    <div class="popup_inner">
+        <h3>Book an <span>Appointment</span></h3>
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div class= "row">
+                <label class="col-md-3 col-form-label">{{field.label_tag}} <span class="text-danger">*</span></label>
+                <div class="col-md-6">{{field}}</div>
+            </div>
+            {% for error in field.errors %}
+                <p style = "color : red">{{error}}</p>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <p style = "color : red">{{error}}</p>
+        {% endfor %}
+        <div class="col-xl-12">
+            <button type="submit" class="boxed-btn3">Make an Appointment</button>
+        </div>
+    </div>
+</div>
+<script>
+     $(document).ready(function (){
+        var d = new Date();
+        var fullDate=d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate() + "T00:00";
+        console.log(fullDate);
+        $('.datetimepicker').attr(
+             
+            {'min': fullDate }
+        );
+    }); 
+
+    $('#id_specialities').on('change', function() {
+        var specId = $(this).val();
+        console.log(specId);
+        $.ajax({   
+                type:"GET",
+                url : "appointments/load_doc/",
+                data: { 'sepc': specId },
+                success: function(data) 
+                {
+                    $("#id_doctor").html(data);
+                }
+            })
+    }); 
+</script>

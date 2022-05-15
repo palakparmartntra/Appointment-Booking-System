@@ -1,0 +1,72 @@
+{% extends 'index.html' %}
+{% load static   %}
+{% block content %}
+<div class="depertment_area">
+    <div class="container">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            {% for spec in specialities %}
+                <li class="nav-item">
+                <a class="nav-link {% if forloop.counter == 1%}active{%else%}{%endif%}" id="{{spec.specialities}}-tab" data-toggle="tab" href="#{{spec.specialities}}" role="tab" aria-controls="{{spec.specialities}}" aria-selected="true">
+                    <h4>{{spec.specialities}}</h4>
+                    ({{spec.specialities__count}})
+                </a>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            {% for spec in specialities %}
+                <div class="tab-pane fade  {% if forloop.counter == 1%}show active{%else%}{%endif%}" id="{{spec.specialities}}" role="tabpanel" aria-labelledby="{{spec.specialities}}-tab">
+                    {% for d in doctors %}
+                        {% if d.specialities == spec.specialities %}
+                            <div class="row justify-content-center">
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="single_expert">
+                                        <div class="expert_thumb">
+                                            <img src="{{d.photo.url}}">
+                                        </div>
+                                        <div class="experts_name text-center">
+                                            <h3>{{d.first_name}} {{d.last_name}}</h3>
+                                            {{d.contact}}
+                                            <span>{{d.specialities}}</span>
+                                        </div>
+                                        <div class="book_room">
+                                            <div class="book_btn">
+                                                {% if user.role == "Patient" %}
+                                                <a class="popup-with-form" href="#test-form" data-value={{d.id}}>Book  Appointment</a>
+                                            {% else %}
+                                            {% endif%} 
+                                           
+                                            
+                                            <form id="test-form" class="white-popup-block mfp-hide" class="booking" method="post" action="{% url 'booking' %}">
+                                            </form>
+                                        </div>
+                                        </div>
+                                     
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}  
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<script>
+    $('.popup-with-form').on('click',function(){
+        var doctorId = $(this).data('value');
+        $.ajax(
+            {   
+                type:"GET",
+                url: "../../appointments/booking/",
+                data: { 'doctor_id': doctorId },
+                success: function( data ) 
+                {
+                    $('#test-form').html(data)
+                    $('#id_doctor').select2();
+                }
+        })
+    });
+</script>
+
+{% endblock %}
