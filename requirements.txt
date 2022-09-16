@@ -1,4 +1,4 @@
-Django==3.2.13
+Django==3.2.15
 django-allauth==0.50.0
 django-phonenumber-field==6.1.0
 environs==9.5.0
