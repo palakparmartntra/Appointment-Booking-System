@@ -1,7 +1,9 @@
-Django==3.2.13
+
 django-allauth==0.50.0
 django-phonenumber-field==6.1.0
 environs==9.5.0
 phonenumbers==8.12.49
 Pillow==9.1.1
-psycopg2-binary==2.9.3
+psycopg2-binary>=2.9.3
+Django>=3.0,<4.0
+psycopg2>=2.8
