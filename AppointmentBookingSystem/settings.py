@@ -107,12 +107,12 @@ WSGI_APPLICATION = 'AppointmentBookingSystem.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "ENGINE": "django.db.backends.postgresql",
         "NAME": env("DATABASE_NAME"),
         "USER": env("USER_NAME"),
         "PASSWORD": env("PASSWORD_NAME"),
-        "HOST": "localhost",
-        "PORT": "5432",
+        "HOST": env("DB_HOST"),
+        "PORT": env("DB_PORT"),
     }
 }
 
