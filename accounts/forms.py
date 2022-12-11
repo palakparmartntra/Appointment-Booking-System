@@ -15,12 +15,6 @@ class MyCustomSignupForm(SignupForm):
             attrs={"placeholder": "Enter your email name"}
         ),
     )
-    username = forms.CharField(
-        max_length=122,
-        widget=forms.TextInput(
-            attrs={"placeholder": "Enter your username"}
-        ),
-    )
     first_name = forms.CharField(
         max_length=122,
         widget=forms.TextInput(
@@ -33,19 +27,10 @@ class MyCustomSignupForm(SignupForm):
             attrs={"placeholder": "Enter your last name"}
         ),
     )
-    contact = PhoneNumberField(
-        widget=forms.TextInput(
-            attrs={"placeholder": "Enter your contact number"}
-        )
-    )
-    gender = forms.ChoiceField(choices=GENDER)
-
     def save(self, request):
         user = super(MyCustomSignupForm, self).save(request)
         user.first_name = self.cleaned_data["first_name"]
         user.last_name = self.cleaned_data["last_name"]
-        user.contact = self.cleaned_data["contact"]
-        user.gender = self.cleaned_data["gender"]
         user.save()
         return user
 
