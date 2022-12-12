@@ -19,8 +19,8 @@ class SpecialitiesView(LoginRequiredMixin, View):
     """for specialities of doctors"""
 
     def get(self, request):
-        doctors = User.objects.filter(role=ROLE[0][0])
-        specialities = User.objects.exclude(specialities=None).values('specialities').annotate(Count('specialities'))
+        doctors = User.objects.filter(role__name=ROLE[0][0])
+        specialities = User.objects.exclude(specialities=None).values('specialities__name').annotate(Count('specialities'))
         data = {"specialities": specialities, "doctors": doctors}
         return render(request, "specialities.html", data)
 
@@ -32,9 +32,10 @@ class BookAppointment(LoginRequiredMixin, View):
         user = request.GET.get('doctor_id')
         if user:
             spec = User.objects.get(id=user)
-            form = AppointmentForm(initial={'specialities': spec.specialities, 'doctor': user})
+            form = AppointmentForm(initial={'specialities': spec.specialities.name, 'doctor': user})
         else:
             form = AppointmentForm()
+
         return render(request, 'account/_application_form.html', {'form': form})
 
     def post(self, request):
@@ -55,6 +56,7 @@ class BookAppointment(LoginRequiredMixin, View):
 
 
 def load_doc(request):
+    breakpoint()
     spec = request.GET.get('sepc')
     doc = User.objects.filter(specialities=spec)
     return render(request, 'account/_doc_list.html', {'doc_list': doc})

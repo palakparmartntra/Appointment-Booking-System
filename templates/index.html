@@ -121,7 +121,7 @@
                                     {% comment %}
                                         <a href="{% url 'account_login' %}" class="boxed-btn5">Discover More</a>
                                     {% endcomment %}
-                                    {% if user.role == "Patient" %}
+                                    {% if user.role.name == "Patient" %}
                                         <a class="popup-with-form boxed-btn5" href="#test-form" >Book  Appointment</a>
                                     {% else %}
                                     {% endif%}
@@ -138,6 +138,7 @@
         <script>
             $('.popup-with-form').on('click',function(){
                 var doctorId = $(this).data('value');
+                console.log("aa", doctorId);
                 $.ajax({
                     type:"GET",
                     url: "../../appointments/booking/",

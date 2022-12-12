@@ -1,4 +1,4 @@
-from accounts.models import User
+from accounts.models import User, Speciality
 from django import forms
 from allauth.account.forms import SignupForm, LoginForm
 from phonenumber_field.formfields import PhoneNumberField
@@ -78,7 +78,9 @@ class AddDoctorForm(forms.ModelForm):
         )
     )
     gender = forms.ChoiceField(choices=GENDER)
-    specialities = forms.ChoiceField(choices=SPECIALITIES)
+    specialities = forms.ModelChoiceField(queryset=Speciality.objects.all(),
+                                    to_field_name = 'name',
+                                    empty_label="Select Speciality")
     photo = forms.ImageField()
 
     class Meta:
@@ -123,7 +125,9 @@ class UpdateDoctorForm(forms.ModelForm):
                    "placeholder": "Enter your contact number"}
         )
     )
-    specialities = forms.ChoiceField(choices=SPECIALITIES)
+    specialities = forms.ModelChoiceField(queryset=Speciality.objects.all(),
+                                    to_field_name = 'name',
+                                    empty_label="Select Speciality")
     photo = forms.ImageField()
 
     class Meta:

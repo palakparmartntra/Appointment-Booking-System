@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.detail import DetailView
 from django.views.generic import CreateView, UpdateView
-from accounts.models import User
+from accounts.models import User, Role
 from accounts.forms import AddDoctorForm, ChangePasswordForm, UpdateDoctorForm, UpdatePatientForm
 from accounts.constants import ROLE
 import logging
@@ -26,8 +26,10 @@ class AddDoctorView(LoginRequiredMixin, CreateView):
         try:
             form = AddDoctorForm(request.POST, request.FILES)
             if form.is_valid():
+
                 userdata = form.save(commit=False)
-                userdata.role = ROLE[0][0]
+                breakpoint()
+                userdata.role = Role.objects.get(name=ROLE[0][0])
                 userdata.set_password(userdata.email)
                 userdata.email_verified = True
                 userdata.is_staff = True
